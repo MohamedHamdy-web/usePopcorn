@@ -1,4 +1,5 @@
 import { useState } from "react";
+import propTypes from "prop-types";
 
 const containerStyle = {
   display: "flex",
@@ -11,18 +12,28 @@ const startContainerStyle = {
   gap: "4px",
 };
 
-const textStyle = {
-  lineHeight: "1",
-  margin: "0",
+StarRating.propTypes = {
+  maxRating: propTypes.number,
 };
 
-export default function StarRating({ maxRating = 1 }) {
-  const [rating, setRating] = useState(1);
+export default function StarRating({
+  maxRating = 1,
+  color = "#fcc419",
+  size = 48,
+}) {
+  const [rating, setRating] = useState(0);
   const [tempRating, setTempRating] = useState(0);
 
   function handleRating(rating) {
     setRating(rating);
   }
+
+  const textStyle = {
+    lineHeight: "1",
+    margin: "0",
+    color,
+    fontSize: `${size / 1.5}px`,
+  };
 
   return (
     <div style={containerStyle}>
@@ -34,6 +45,8 @@ export default function StarRating({ maxRating = 1 }) {
             onRate={() => handleRating(i + 1)}
             onHoverIn={() => setTempRating(i + 1)}
             onHoverOut={() => setTempRating(0)}
+            color={color}
+            size={size}
           />
         ))}
       </div>
@@ -42,14 +55,14 @@ export default function StarRating({ maxRating = 1 }) {
   );
 }
 
-const starStyle = {
-  width: "48px",
-  height: "48px",
-  display: "flex",
-  cursor: "pointer",
-};
+function Star({ onRate, full, onHoverIn, onHoverOut, color, size }) {
+  const starStyle = {
+    width: `${size}px`,
+    height: `${size}px`,
+    display: "flex",
+    cursor: "pointer",
+  };
 
-function Star({ onRate, full, onHoverIn, onHoverOut }) {
   return (
     <span
       role="button"
@@ -62,8 +75,8 @@ function Star({ onRate, full, onHoverIn, onHoverOut }) {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
-          fill="#000"
-          stroke="#000"
+          fill={color}
+          stroke={color}
         >
           <path
             strokeLinecap="round"
@@ -77,7 +90,7 @@ function Star({ onRate, full, onHoverIn, onHoverOut }) {
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          stroke="#000"
+          stroke={color}
         >
           <path
             strokeLinecap="round"
