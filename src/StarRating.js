@@ -14,18 +14,21 @@ const startContainerStyle = {
 
 StarRating.propTypes = {
   maxRating: propTypes.number,
+  onSetRating: propTypes.func,
 };
 
 export default function StarRating({
   maxRating = 1,
   color = "#fcc419",
   size = 48,
+  onSetRating,
 }) {
   const [rating, setRating] = useState(0);
   const [tempRating, setTempRating] = useState(0);
 
   function handleRating(rating) {
     setRating(rating);
+    onSetRating(rating);
   }
 
   const textStyle = {
